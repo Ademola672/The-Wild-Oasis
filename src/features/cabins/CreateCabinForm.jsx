@@ -43,8 +43,10 @@ const Error = styled.span`
   color: var(--color-red-700);
 `;
 
+console.log(Error);
+
 function CreateCabinForm() {
-  const { register, handleSubmit } = useForm;
+  const { register, handleSubmit } = useForm();
 
   function onSubmit(data) {
     console.log(data);

@@ -11,7 +11,7 @@ const Row = styled.div`
     `}
 
   ${(props) =>
-    props.type === "verical" &&
+    props.type === "vertical" && // This ensures vertical layout
     css`
       flex-direction: column;
       gap: 1.6rem;
@@ -19,7 +19,7 @@ const Row = styled.div`
 `;
 
 Row.defaultProps = {
-  type: "vertical",
+  type: "vertical", // Default type is "vertical"
 };
 
 export default Row;
