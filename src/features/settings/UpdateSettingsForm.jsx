@@ -48,6 +48,7 @@ function UpdateSettingsForm() {
         />
       </FormRow>
       <FormRow label="Maximum guests/booking">
+        `...`
         <Input
           type="number"
           id="max-guests"
