@@ -1,3 +1,6 @@
+import PropTypes from "prop-types";
+import { createPortal } from "react-dom";
+import { HiXMark } from "react-icons/hi2";
 import styled from "styled-components";
 
 const StyledModal = styled.div`
@@ -48,3 +51,25 @@ const Button = styled.button`
     color: var(--color-grey-500);
   }
 `;
+
+function Modal({ children, onClose }) {
+  return createPortal(
+    <Overlay>
+      <StyledModal>
+        <Button onClick={onClose}>
+          <HiXMark />
+        </Button>
+        <div>{children}</div>
+      </StyledModal>
+    </Overlay>,
+    document.body
+  );
+}
+
+export default Modal;
+
+// Add prop validation
+Modal.propTypes = {
+  children: PropTypes.node.isRequired, // Validates that children is required and can be any renderable content
+  onClose: PropTypes.func.isRequired, // Validates that onClose is required and must be a function
+};
