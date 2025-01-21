@@ -1,3 +1,4 @@
+import PropTypes from "prop-types";
 import styled from "styled-components";
 import Button from "./Button";
 import Heading from "./Heading";
@@ -20,7 +21,7 @@ const StyledConfirmDelete = styled.div`
   }
 `;
 
-function ConfirmDelete({ resourceName, onConfirm, disabled }) {
+function ConfirmDelete({ resourceName, onConfirm, disabled, onCloseModal }) {
   return (
     <StyledConfirmDelete>
       <Heading as="h3">Delete {resourceName}</Heading>
@@ -30,15 +31,31 @@ function ConfirmDelete({ resourceName, onConfirm, disabled }) {
       </p>
 
       <div>
-        <Button variation="secondary" disabled={disabled}>
+        <Button
+          variation="secondary"
+          disabled={disabled}
+          onClick={onCloseModal}
+        >
           Cancel
         </Button>
-        <Button variation="danger" disabled={disabled}>
+        <Button variation="danger" disabled={disabled} onClick={onConfirm}>
           Delete
         </Button>
       </div>
     </StyledConfirmDelete>
   );
 }
+
+// Add PropTypes validation
+ConfirmDelete.propTypes = {
+  resourceName: PropTypes.string.isRequired, // Validates that resourceName is a required string
+  onConfirm: PropTypes.func.isRequired, // Validates that onConfirm is a required function
+  onCloseModal: PropTypes.func.isRequired, // Validates that onCloseModal is a required function
+  disabled: PropTypes.bool, // Validates that disabled is a boolean (optional)
+};
+
+ConfirmDelete.defaultProps = {
+  disabled: false, // Default value for disabled prop
+};
 
 export default ConfirmDelete;
