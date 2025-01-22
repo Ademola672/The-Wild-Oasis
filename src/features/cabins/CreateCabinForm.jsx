@@ -1,7 +1,5 @@
-// import styled from "styled-components";
-import PropTypes from "prop-types";
-
 import { useForm } from "react-hook-form";
+import PropTypes from "prop-types"; // Import PropTypes
 
 import Input from "../../ui/Input";
 import Form from "../../ui/Form";
@@ -15,9 +13,7 @@ import { useEditCabin } from "./useEditCabin";
 
 function CreateCabinForm({ cabinToEdit = {}, onCloseModal }) {
   const { isCreating, createCabin } = useCreateCabin();
-
   const { isEditing, editCabin } = useEditCabin();
-
   const isWorking = isCreating || isEditing;
 
   const { id: editId, ...editValues } = cabinToEdit;
@@ -26,20 +22,14 @@ function CreateCabinForm({ cabinToEdit = {}, onCloseModal }) {
   const { register, handleSubmit, reset, getValues, formState } = useForm({
     defaultValues: isEditSession ? editValues : {},
   });
-
   const { errors } = formState;
 
   function onSubmit(data) {
     const image = typeof data.image === "string" ? data.image : data.image[0];
 
-    if (isEditSession)
+    if (isEditSession) {
       editCabin(
         { newCabinData: { ...data, image }, id: editId },
-        { onSuccess: () => reset() }
-      );
-    else
-      createCabin(
-        { ...data, image: image },
         {
           onSuccess: () => {
             reset();
@@ -47,10 +37,21 @@ function CreateCabinForm({ cabinToEdit = {}, onCloseModal }) {
           },
         }
       );
+    } else {
+      createCabin(
+        { ...data, image },
+        {
+          onSuccess: () => {
+            reset();
+            onCloseModal?.();
+          },
+        }
+      );
+    }
   }
 
   function onError(errors) {
-    // console.log(errors);
+    console.error("Form Errors:", errors);
   }
 
   return (
@@ -78,7 +79,7 @@ function CreateCabinForm({ cabinToEdit = {}, onCloseModal }) {
             required: "This field is required",
             min: {
               value: 1,
-              message: "Capcity should be at least 1",
+              message: "Capacity should be at least 1",
             },
           })}
         />
@@ -93,7 +94,7 @@ function CreateCabinForm({ cabinToEdit = {}, onCloseModal }) {
             required: "This field is required",
             min: {
               value: 1,
-              message: "Capcity should be at least 1",
+              message: "Price should be at least 1",
             },
           })}
         />
@@ -109,7 +110,7 @@ function CreateCabinForm({ cabinToEdit = {}, onCloseModal }) {
             required: "This field is required",
             validate: (value) =>
               value <= getValues().regularPrice ||
-              "Discount should be less than regular price",
+              "Discount should be less than or equal to regular price",
           })}
         />
       </FormRow>
@@ -119,9 +120,7 @@ function CreateCabinForm({ cabinToEdit = {}, onCloseModal }) {
         error={errors?.description?.message}
       >
         <Textarea
-          type="number"
           id="description"
-          defaultValue=""
           disabled={isWorking}
           {...register("description", { required: "This field is required" })}
         />
@@ -138,7 +137,6 @@ function CreateCabinForm({ cabinToEdit = {}, onCloseModal }) {
       </FormRow>
 
       <FormRow>
-        {/* type is an HTML attribute! */}
         <Button
           variation="secondary"
           type="reset"
@@ -156,7 +154,7 @@ function CreateCabinForm({ cabinToEdit = {}, onCloseModal }) {
 
 CreateCabinForm.propTypes = {
   cabinToEdit: PropTypes.shape({
-    id: PropTypes.string,
+    id: PropTypes.oneOfType([PropTypes.string, PropTypes.number]),
     name: PropTypes.string,
     maxCapacity: PropTypes.number,
     regularPrice: PropTypes.number,
@@ -164,7 +162,7 @@ CreateCabinForm.propTypes = {
     description: PropTypes.string,
     image: PropTypes.oneOfType([PropTypes.string, PropTypes.object]),
   }),
-  onCloseModal: PropTypes.func.isRequired, // Add this line to validate the onCloseModal prop
+  onCloseModal: PropTypes.func,
 };
 
 export default CreateCabinForm;

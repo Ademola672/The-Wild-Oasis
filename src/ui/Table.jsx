@@ -1,9 +1,9 @@
+import PropTypes from "prop-types";
 import { createContext, useContext } from "react";
 import styled from "styled-components";
 
 const StyledTable = styled.div`
   border: 1px solid var(--color-grey-200);
-
   font-size: 1.4rem;
   background-color: var(--color-grey-0);
   border-radius: 7px;
@@ -20,7 +20,6 @@ const CommonRow = styled.div`
 
 const StyledHeader = styled(CommonRow)`
   padding: 1.6rem 2.4rem;
-
   background-color: var(--color-grey-50);
   border-bottom: 1px solid var(--color-grey-100);
   text-transform: uppercase;
@@ -47,7 +46,6 @@ const Footer = styled.footer`
   justify-content: center;
   padding: 1.2rem;
 
-  /* This will hide the footer when it contains no child elements. Possible thanks to the parent selector :has 🎉 */
   &:not(:has(*)) {
     display: none;
   }
@@ -70,6 +68,11 @@ function Table({ columns, children }) {
   );
 }
 
+Table.propTypes = {
+  columns: PropTypes.string.isRequired, // Validates that `columns` is a required string
+  children: PropTypes.node.isRequired, // Validates that `children` is required and can be any renderable content
+};
+
 function Header({ children }) {
   const { columns } = useContext(TableContext);
 
@@ -79,6 +82,11 @@ function Header({ children }) {
     </StyledHeader>
   );
 }
+
+Header.propTypes = {
+  children: PropTypes.node.isRequired, // Validates that `children` is required and can be any renderable content
+};
+
 function Row({ children }) {
   const { columns } = useContext(TableContext);
 
@@ -88,7 +96,21 @@ function Row({ children }) {
     </StyledRow>
   );
 }
-function Body({ children }) {}
+
+Row.propTypes = {
+  children: PropTypes.node.isRequired, // Validates that `children` is required and can be any renderable content
+};
+
+function Body({ data, render }) {
+  if (!data.length) return <Empty>No data to show at the moment</Empty>;
+
+  return <StyledBody>{data.map(render)}</StyledBody>;
+}
+
+Body.propTypes = {
+  data: PropTypes.array.isRequired, // Validates that `data` is a required array
+  render: PropTypes.func.isRequired, // Validates that `render` is a required function
+};
 
 Table.Header = Header;
 Table.Body = Body;

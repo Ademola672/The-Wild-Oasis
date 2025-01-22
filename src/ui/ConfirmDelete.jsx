@@ -34,7 +34,7 @@ function ConfirmDelete({ resourceName, onConfirm, disabled, onCloseModal }) {
         <Button
           variation="secondary"
           disabled={disabled}
-          onClick={onCloseModal}
+          onClick={onCloseModal || (() => {})}
         >
           Cancel
         </Button>
@@ -50,7 +50,7 @@ function ConfirmDelete({ resourceName, onConfirm, disabled, onCloseModal }) {
 ConfirmDelete.propTypes = {
   resourceName: PropTypes.string.isRequired, // Validates that resourceName is a required string
   onConfirm: PropTypes.func.isRequired, // Validates that onConfirm is a required function
-  onCloseModal: PropTypes.func.isRequired, // Validates that onCloseModal is a required function
+  onCloseModal: PropTypes.func, // Changed to optional
   disabled: PropTypes.bool, // Validates that disabled is a boolean (optional)
 };
 
