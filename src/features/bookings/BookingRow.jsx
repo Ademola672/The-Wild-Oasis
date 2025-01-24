@@ -1,3 +1,5 @@
+// import React from "react";
+import PropTypes from "prop-types"; // Add this import for prop validation
 import styled from "styled-components";
 import { format, isToday } from "date-fns";
 
@@ -68,10 +70,10 @@ function BookingRow({
           {isToday(new Date(startDate))
             ? "Today"
             : formatDistanceFromNow(startDate)}{" "}
-          &rarr; {numNights} night stay
+          → {numNights} night stay
         </span>
         <span>
-          {format(new Date(startDate), "MMM dd yyyy")} &mdash;{" "}
+          {format(new Date(startDate), "MMM dd yyyy")} —{" "}
           {format(new Date(endDate), "MMM dd yyyy")}
         </span>
       </Stacked>
@@ -82,5 +84,27 @@ function BookingRow({
     </Table.Row>
   );
 }
+
+// Add PropTypes validation
+BookingRow.propTypes = {
+  booking: PropTypes.shape({
+    id: PropTypes.oneOfType([PropTypes.string, PropTypes.number]).isRequired,
+    created_at: PropTypes.string.isRequired,
+    startDate: PropTypes.string.isRequired,
+    endDate: PropTypes.string.isRequired,
+    numNights: PropTypes.number.isRequired,
+    numGuests: PropTypes.number.isRequired,
+    totalPrice: PropTypes.number.isRequired,
+    status: PropTypes.oneOf(["unconfirmed", "checked-in", "checked-out"])
+      .isRequired,
+    guests: PropTypes.shape({
+      fullName: PropTypes.string.isRequired,
+      email: PropTypes.string.isRequired,
+    }).isRequired,
+    cabins: PropTypes.shape({
+      name: PropTypes.string.isRequired,
+    }).isRequired,
+  }).isRequired,
+};
 
 export default BookingRow;
