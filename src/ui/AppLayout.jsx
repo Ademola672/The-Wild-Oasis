@@ -26,7 +26,7 @@ const Container = styled.div`
   gap: 3.2rem;
 `;
 
-function AppLayout() {
+function AppLayout() {.....
   return (
     <StylesAppLayout>
       <Header />
