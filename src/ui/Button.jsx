@@ -48,17 +48,20 @@ const variations = {
   `,
 };
 
+// Add the `$` prefix to variation prop for transient prop
 const Button = styled.button`
   border: none;
   border-radius: var(--border-radius-sm);
   box-shadow: var(--shadow-sm);
 
   ${(props) => sizes[props.size]}
-  ${(props) => variations[props.variation]}
+  ${(props) => variations[props.$variation]} {
+    /* Use $variation */
+  }
 `;
 
 Button.defaultProps = {
-  variation: "primary",
+  $variation: "primary", // Set default prop with $ prefix
   size: "medium",
 };
 

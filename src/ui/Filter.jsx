@@ -1,6 +1,7 @@
+import PropTypes from "prop-types";
 import { useSearchParams } from "react-router-dom";
 import styled, { css } from "styled-components";
-import PropTypes from "prop-types"; // Added PropTypes for prop validation
+
 const StyledFilter = styled.div`
   border: 1px solid var(--color-grey-100);
   background-color: var(--color-grey-0);
@@ -16,7 +17,7 @@ const FilterButton = styled.button`
   border: none;
 
   ${(props) =>
-    props.active &&
+    props.$isActive &&
     css`
       background-color: var(--color-brand-600);
       color: var(--color-brand-50);
@@ -25,7 +26,6 @@ const FilterButton = styled.button`
   border-radius: var(--border-radius-sm);
   font-weight: 500;
   font-size: 1.4rem;
-  /* To give the same height as select */
   padding: 0.44rem 0.8rem;
   transition: all 0.3s;
 
@@ -50,7 +50,7 @@ function Filter({ filterField, options }) {
         <FilterButton
           key={option.value}
           onClick={() => handleClick(option.value)}
-          active={option.value === currentFilter}
+          $isActive={option.value === currentFilter} // Use $isActive
           disabled={option.value === currentFilter}
         >
           {option.label}
@@ -60,7 +60,6 @@ function Filter({ filterField, options }) {
   );
 }
 
-// PropType validation
 Filter.propTypes = {
   filterField: PropTypes.string.isRequired,
   options: PropTypes.arrayOf(

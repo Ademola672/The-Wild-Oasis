@@ -12,7 +12,7 @@ const StyledTable = styled.div`
 
 const CommonRow = styled.div`
   display: grid;
-  grid-template-columns: ${(props) => props.columns};
+  grid-template-columns: ${(props) => props.$columns}; /* Use $columns */
   column-gap: 2.4rem;
   align-items: center;
   transition: none;
@@ -69,36 +69,36 @@ function Table({ columns, children }) {
 }
 
 Table.propTypes = {
-  columns: PropTypes.string.isRequired, // Validates that `columns` is a required string
-  children: PropTypes.node.isRequired, // Validates that `children` is required and can be any renderable content
+  columns: PropTypes.string.isRequired,
+  children: PropTypes.node.isRequired,
 };
 
 function Header({ children }) {
   const { columns } = useContext(TableContext);
 
   return (
-    <StyledHeader role="row" columns={columns} as="header">
+    <StyledHeader role="row" $columns={columns} as="header">
       {children}
     </StyledHeader>
   );
 }
 
 Header.propTypes = {
-  children: PropTypes.node.isRequired, // Validates that `children` is required and can be any renderable content
+  children: PropTypes.node.isRequired,
 };
 
 function Row({ children }) {
   const { columns } = useContext(TableContext);
 
   return (
-    <StyledRow role="row" columns={columns}>
+    <StyledRow role="row" $columns={columns}>
       {children}
     </StyledRow>
   );
 }
 
 Row.propTypes = {
-  children: PropTypes.node.isRequired, // Validates that `children` is required and can be any renderable content
+  children: PropTypes.node.isRequired,
 };
 
 function Body({ data, render }) {
@@ -108,8 +108,8 @@ function Body({ data, render }) {
 }
 
 Body.propTypes = {
-  data: PropTypes.array.isRequired, // Validates that `data` is a required array
-  render: PropTypes.func.isRequired, // Validates that `render` is a required function
+  data: PropTypes.array.isRequired,
+  render: PropTypes.func.isRequired,
 };
 
 Table.Header = Header;
