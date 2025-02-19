@@ -1,3 +1,4 @@
+import PropTypes from "prop-types";
 import styled from "styled-components";
 import { format, isToday } from "date-fns";
 import {
@@ -13,11 +14,9 @@ import { Flag } from "../../ui/Flag";
 import { formatDistanceFromNow, formatCurrency } from "../../utils/helpers";
 
 const StyledBookingDataBox = styled.section`
-  /* Box */
   background-color: var(--color-grey-0);
   border: 1px solid var(--color-grey-100);
   border-radius: var(--border-radius-md);
-
   overflow: hidden;
 `;
 
@@ -101,8 +100,9 @@ const Footer = styled.footer`
   text-align: right;
 `;
 
-// A purely presentational component
 function BookingDataBox({ booking }) {
+  if (!booking) return <p>Loading booking details...</p>;
+
   const {
     created_at,
     startDate,
@@ -115,9 +115,14 @@ function BookingDataBox({ booking }) {
     hasBreakfast,
     observations,
     isPaid,
-    guests: { fullName: guestName, email, country, countryFlag, nationalID },
-    cabins: { name: cabinName },
   } = booking;
+
+  const guestName = booking?.guests?.fullName || "Unknown Guest";
+  const email = booking?.guests?.email || "No email provided";
+  const country = booking?.guests?.country || "Unknown country";
+  const countryFlag = booking?.guests?.countryFlag || null;
+  const nationalID = booking?.guests?.nationalID || "N/A";
+  const cabinName = booking?.cabins?.name || "Unknown cabin";
 
   return (
     <StyledBookingDataBox>
@@ -144,10 +149,18 @@ function BookingDataBox({ booking }) {
           <p>
             {guestName} {numGuests > 1 ? `+ ${numGuests - 1} guests` : ""}
           </p>
-          <span>&bull;</span>
-          <p>{email}</p>
-          <span>&bull;</span>
-          <p>National ID {nationalID}</p>
+          {email && (
+            <>
+              <span>&bull;</span>
+              <p>{email}</p>
+            </>
+          )}
+          {nationalID && (
+            <>
+              <span>&bull;</span>
+              <p>National ID {nationalID}</p>
+            </>
+          )}
         </Guest>
 
         {observations && (
@@ -183,5 +196,31 @@ function BookingDataBox({ booking }) {
     </StyledBookingDataBox>
   );
 }
+
+BookingDataBox.propTypes = {
+  booking: PropTypes.shape({
+    created_at: PropTypes.string.isRequired,
+    startDate: PropTypes.string.isRequired,
+    endDate: PropTypes.string.isRequired,
+    numNights: PropTypes.number.isRequired,
+    numGuests: PropTypes.number.isRequired,
+    cabinPrice: PropTypes.number.isRequired,
+    extrasPrice: PropTypes.number.isRequired,
+    totalPrice: PropTypes.number.isRequired,
+    hasBreakfast: PropTypes.bool.isRequired,
+    observations: PropTypes.string,
+    isPaid: PropTypes.bool.isRequired,
+    guests: PropTypes.shape({
+      fullName: PropTypes.string,
+      email: PropTypes.string,
+      country: PropTypes.string,
+      countryFlag: PropTypes.string,
+      nationalID: PropTypes.string,
+    }),
+    cabins: PropTypes.shape({
+      name: PropTypes.string,
+    }),
+  }).isRequired,
+};
 
 export default BookingDataBox;
