@@ -10,3 +10,18 @@ export async function login({ email, password }) {
 
   return data;
 }
+
+export async function getCurrentUser() {
+  const { data: sessionData, error: sessionError } =
+    await supabase.auth.getSession();
+  if (sessionError) throw new Error(sessionError.message);
+
+  if (!sessionData?.session) return null;
+
+  const { data, error } = await supabase.auth.getUser();
+  if (error) throw new Error(error.message);
+
+  console.log(data);
+
+  return data?.user;
+}
