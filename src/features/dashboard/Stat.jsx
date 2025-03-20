@@ -1,3 +1,5 @@
+import PropTypes from "prop-types";
+
 import styled from "styled-components";
 
 const StyledStat = styled.div`
@@ -56,5 +58,12 @@ function Stat({ icon, title, value, color }) {
     </StyledStat>
   );
 }
+
+Stat.propTypes = {
+  icon: PropTypes.node.isRequired, // Accepts a React node (JSX)
+  title: PropTypes.string.isRequired,
+  value: PropTypes.oneOfType([PropTypes.string, PropTypes.number]).isRequired, // Allows numbers or strings
+  color: PropTypes.string.isRequired, // Ensures color is a string
+};
 
 export default Stat;
