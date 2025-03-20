@@ -52,7 +52,7 @@ function TodayActivity() {
         activities?.length > 0 ? (
           <TodayList>
             {activities.map((activity) => (
-              <TodayItem key={activity.id} activity={activity} />
+              <TodayItem activity={activity} key={activity.id} />
             ))}
           </TodayList>
         ) : (

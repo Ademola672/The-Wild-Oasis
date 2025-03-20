@@ -33,7 +33,10 @@ function TodayItem({ activity }) {
       {status === "unconfirmed" && <Tag type="green">Arriving </Tag>}
       {status === "checked-in" && <Tag type="blue">Departing </Tag>}
 
-      <Flag src={guests.countryFlag} alt={`Flag of ${guests.country}`} />
+      <Flag
+        src={guests.countryFlag}
+        alt={`Flag of ${guests.country || "unknown"}`}
+      />
 
       <Guest>{guests.fullName}</Guest>
       <div>{numNights} nights</div>
@@ -61,7 +64,7 @@ TodayItem.propTypes = {
     status: PropTypes.oneOf(["unconfirmed", "checked-in"]).isRequired,
     guests: PropTypes.shape({
       countryFlag: PropTypes.string.isRequired,
-      country: PropTypes.string.isRequired,
+      country: PropTypes.string, // Remove .isRequired
       fullName: PropTypes.string.isRequired,
     }).isRequired,
     numNights: PropTypes.number.isRequired,
