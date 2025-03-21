@@ -11,7 +11,8 @@ import {
   XAxis,
   YAxis,
 } from "recharts";
-import useDarkMode from "../../Context/useDarkMode";
+import { useDarkMode } from "../../Context/DarkModeContext"; // ✅ Fix
+
 import { eachDayOfInterval, format, isSameDay, subDays } from "date-fns";
 
 const StyledSalesChart = styled(DashboardBox)`

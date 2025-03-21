@@ -1,4 +1,4 @@
-import { createContext, useEffect } from "react";
+import { createContext, useContext, useEffect } from "react";
 import PropTypes from "prop-types";
 import { useLocalStorageState } from "../hooks/useLocalStorageState";
 
@@ -36,4 +36,13 @@ DarkModeProvider.propTypes = {
   children: PropTypes.node.isRequired,
 };
 
-export { DarkModeProvider, DarkModeContext };
+// ✅ Create and Export a Custom Hook
+function useDarkMode() {
+  const context = useContext(DarkModeContext);
+  if (!context) {
+    throw new Error("useDarkMode must be used within a DarkModeProvider");
+  }
+  return context;
+}
+
+export { DarkModeProvider, useDarkMode }; // ✅ Named Exports
