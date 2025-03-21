@@ -11,7 +11,7 @@ import {
   XAxis,
   YAxis,
 } from "recharts";
-import { useDarkMode } from "../../Context/DarkModeContext"; // ✅ Fix
+import { useDarkMode } from "../../Context/DarkModeContext"; // ✅ Correct Import
 
 import { eachDayOfInterval, format, isSameDay, subDays } from "date-fns";
 

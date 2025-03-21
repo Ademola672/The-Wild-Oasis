@@ -36,7 +36,7 @@ DarkModeProvider.propTypes = {
   children: PropTypes.node.isRequired,
 };
 
-// ✅ Create and Export a Custom Hook
+// ✅ Keep Only This useDarkMode Hook
 function useDarkMode() {
   const context = useContext(DarkModeContext);
   if (!context) {
@@ -45,4 +45,4 @@ function useDarkMode() {
   return context;
 }
 
-export { DarkModeProvider, useDarkMode }; // ✅ Named Exports
+export { DarkModeProvider, useDarkMode }; // ✅ Only one export
